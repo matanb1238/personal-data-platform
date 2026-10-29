@@ -55,7 +55,7 @@ def land(entity: str, day: date, payload) -> Path:
     """Write one day's raw payload. Overwrites → idempotent re-runs."""
     out = RAW_DIR / entity / f"dt={day.isoformat()}.json"
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(payload, ensure_ascii=False, indent=2, default=str))
+    out.write_text(json.dumps(payload, ensure_ascii=False, indent=2, default=str), encoding="utf-8")
     return out
 
 
