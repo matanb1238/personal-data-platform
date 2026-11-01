@@ -22,6 +22,8 @@ end-to-end story to present. Time cap: 5–6 h/week; job search always comes fir
   ⚠️ Plain `python` outside the venv points to 3.9 — always activate first:
   `.venv\Scripts\Activate.ps1` (prompt must show `(.venv)`).
 - Secrets in `.env` (gitignored). Template: `.env.example`.
+- PyCharm 2023.1 predates Python 3.13: it labels the venv "Python 3.10" (cosmetic) and its package
+  list needs `setuptools<81` in the venv (for `pkg_resources`). Not a project dependency.
 
 ## Architecture & conventions
 - `ingestion/<source>.py` — one extractor per source, run as `python -m ingestion.<source> --days N`.
@@ -40,10 +42,11 @@ end-to-end story to present. Time cap: 5–6 h/week; job search always comes fir
 - **Application tracker**: markdown table → structured rows. (M1)
 
 ## Status
-- M0 ✅ (mostly): repo on GitHub, Garmin login + token cache work, 30 days landed.
-  Known: 0 activities in the last 30 days — I haven't been recording workouts on the watch yet;
-  daily_stats and sleep have data.
-- Next: explore raw Garmin JSON with DuckDB → `docs/garmin-notes.md` → M1 (Todoist).
+- M0 ✅: repo on GitHub, Garmin login + token cache work, 33 days landed (2026-09-30 → 2026-11-01).
+  Raw profiled with DuckDB → `docs/garmin-notes.md`. Known: 1 activity only, sleep on 2 of 33 nights
+  (watch not worn) — history will need the bulk export.
+  `RAW_DIR` resolves against the project root (fixed a cwd-relative path bug).
+- Next: M1 — `ingestion/todoist.py`.
 
 ## Roadmap
 - M0 Repo + Garmin raw landing
