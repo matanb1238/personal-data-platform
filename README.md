@@ -23,7 +23,7 @@ flowchart LR
 ## Stack
 | Layer | Tool | Status |
 |---|---|---|
-| Ingestion | Python 3.12, `garminconnect` | M0 |
+| Ingestion | Python 3.12+ (developed on 3.13), `garminconnect` | M0 |
 | Raw storage | JSON files → DuckDB | M0–M1 |
 | Transformation | dbt (dbt-duckdb) | M2 |
 | Orchestration | Dagster or Airflow | M3 |
