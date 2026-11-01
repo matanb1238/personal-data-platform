@@ -23,7 +23,9 @@ from garminconnect import Garmin
 load_dotenv()
 log = logging.getLogger("garmin")
 
-RAW_DIR = Path(os.getenv("RAW_DIR", "data/raw")) / "garmin"
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+# Relative RAW_DIR values resolve against the project root, not the cwd; absolute ones win as-is.
+RAW_DIR = PROJECT_ROOT / os.getenv("RAW_DIR", "data/raw") / "garmin"
 TOKEN_DIR = os.path.expanduser(os.getenv("GARMIN_TOKEN_DIR", "~/.garminconnect"))
 
 
