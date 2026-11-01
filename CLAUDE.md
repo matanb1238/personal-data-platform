@@ -38,7 +38,9 @@ end-to-end story to present. Time cap: 5–6 h/week; job search always comes fir
   `Garmin(email, pw, prompt_mfa=...).login(TOKEN_DIR)` loads cached tokens or logs in and saves
   them to `~/.garminconnect/garmin_tokens.json`. Entities: activities, daily_stats, sleep.
   Fallback: official Garmin bulk export.
-- **Todoist**: API v1 (`https://api.todoist.com/api/v1`), token in `TODOIST_TOKEN`. (M1)
+- **Todoist**: API v1 (`https://api.todoist.com/api/v1`), token in `TODOIST_TOKEN`.
+  Cursor pagination (`next_cursor`). Entities: projects + tasks (snapshots, dt = extraction day),
+  completed_tasks (events, dt = completion date in UTC; endpoint returns `items`, max 3-month range).
 - **Application tracker**: markdown table → structured rows. (M1)
 
 ## Status
@@ -46,7 +48,8 @@ end-to-end story to present. Time cap: 5–6 h/week; job search always comes fir
   Raw profiled with DuckDB → `docs/garmin-notes.md`. Known: 1 activity only, sleep on 2 of 33 nights
   (watch not worn) — history will need the bulk export.
   `RAW_DIR` resolves against the project root (fixed a cwd-relative path bug).
-- Next: M1 — `ingestion/todoist.py`.
+- M1 in progress: `ingestion/todoist.py` ✅ (7 projects, 15 open tasks, 3 completed in 33 days).
+- Next: application tracker ingestion → DuckDB raw tables.
 
 ## Roadmap
 - M0 Repo + Garmin raw landing

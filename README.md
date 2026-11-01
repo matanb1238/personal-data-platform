@@ -47,8 +47,9 @@ docs/           notes and diagrams
 ```bash
 python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-cp .env.example .env                                  # fill in Garmin email/password
+cp .env.example .env                                  # fill in Garmin email/password and Todoist token
 python -m ingestion.garmin --days 30                  # first run: interactive login (MFA if enabled)
+python -m ingestion.todoist --days 30                 # snapshot of projects/tasks + completed tasks
 ```
 
 ## Milestones
