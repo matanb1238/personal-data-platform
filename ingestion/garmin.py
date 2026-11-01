@@ -28,26 +28,17 @@ TOKEN_DIR = os.path.expanduser(os.getenv("GARMIN_TOKEN_DIR", "~/.garminconnect")
 
 
 def get_client() -> Garmin:
-    """Reuse cached tokens; fall back to a full (possibly MFA) login."""
-    try:
-        client = Garmin()
-        client.login(TOKEN_DIR)
-        log.info("Logged in with cached tokens")
-        return client
-    except Exception as exc:  # no tokens yet, or expired
-        log.info("Cached login failed (%s); doing full login", type(exc).__name__)
-
+    """garminconnect>=0.3 handles the cascade itself: load cached tokens from
+    TOKEN_DIR, else log in with credentials (+MFA) and dump tokens there."""
+    Path(TOKEN_DIR).mkdir(parents=True, exist_ok=True)
     client = Garmin(
-        os.environ["GARMIN_EMAIL"],
-        os.environ["GARMIN_PASSWORD"],
+        os.getenv("GARMIN_EMAIL"),
+        os.getenv("GARMIN_PASSWORD"),
         prompt_mfa=lambda: input("Garmin MFA code: "),
     )
-    client.login()
-    Path(TOKEN_DIR).mkdir(parents=True, exist_ok=True)
-    # Persist tokens. API differs between library versions; verify on first run.
-    if hasattr(client, "garth"):
-        client.garth.dump(TOKEN_DIR)
-    log.info("Full login OK; tokens saved to %s", TOKEN_DIR)
+    client.login(TOKEN_DIR)
+    saved = any(Path(TOKEN_DIR).iterdir())
+    log.info("Logged in; token cache %s", "present" if saved else "MISSING")
     return client
 
 
