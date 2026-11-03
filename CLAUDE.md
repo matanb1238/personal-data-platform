@@ -43,18 +43,22 @@ end-to-end story to present. Time cap: 5–6 h/week; job search always comes fir
   completed_tasks (events, dt = completion date in UTC; endpoint returns `items`, max 3-month range).
 - **Application tracker**: markdown table → structured rows. (M1)
 
-## Status
-- M0 ✅: repo on GitHub, Garmin login + token cache work, 33 days landed (2026-09-30 → 2026-11-01).
-  Raw profiled with DuckDB → `docs/garmin-notes.md`. Known: 1 activity only, sleep on 2 of 33 nights
-  (watch not worn) — history will need the bulk export.
-  `RAW_DIR` resolves against the project root (fixed a cwd-relative path bug).
-- M1 in progress: `ingestion/todoist.py` ✅ (7 projects, 15 open tasks, 3 completed in 33 days).
-- Next: application tracker ingestion → DuckDB raw tables.
+## Status (2026-11-03)
+- Done: M0 (Garmin raw, profiled in `docs/garmin-notes.md`); Todoist extractor (projects, tasks, completed).
+- Current: M1 — application tracker + DuckDB raw tables.
+- Next: define/locate the application-tracker markdown file, then ingest it.
+- Blockers: tracker file not set up yet; Garmin history thin (1 activity, sleep on 2 of 33 nights)
+  until the bulk export arrives.
+
+## End of session (always)
+Before we finish a session: update the "## Status" section (dated, max 6 lines:
+done / current milestone / next step / blockers), then commit and push.
+Unpushed status is invisible to the rest of my system (other agents read this file from GitHub).
 
 ## Roadmap
 - M0 Repo + Garmin raw landing
 - M1 Todoist + application tracker; DuckDB raw tables
 - M2 dbt staging/marts (fct_workouts, fct_tasks, fct_applications, dim_date) + tests
-- M3 Orchestration (Dagster vs Airflow — decide based on job postings)
+- M3 Orchestration — Airflow (decided 2026-11-02; more common in Israeli DE job postings)
 - M4 Dashboard + one cloud (BigQuery likely)
 - M5 (optional) MCP server over the warehouse + weekly-review agent
