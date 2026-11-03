@@ -41,14 +41,16 @@ end-to-end story to present. Time cap: 5–6 h/week; job search always comes fir
 - **Todoist**: API v1 (`https://api.todoist.com/api/v1`), token in `TODOIST_TOKEN`.
   Cursor pagination (`next_cursor`). Entities: projects + tasks (snapshots, dt = extraction day),
   completed_tasks (events, dt = completion date in UTC; endpoint returns `items`, max 3-month range).
-- **Application tracker**: markdown table → structured rows. (M1)
+- **Application tracker**: external markdown export, path in `TRACKER_EXPORT_PATH` (outside the repo —
+  the repo is public; the export is never committed). Columns: id, company, role, track, source,
+  applied_date, status, last_update, notes. Empty date = unknown. Landed as a daily snapshot. (M1)
 
 ## Status (2026-11-03)
-- Done: M0 (Garmin raw, profiled in `docs/garmin-notes.md`); Todoist extractor (projects, tasks, completed).
-- Current: M1 — application tracker + DuckDB raw tables.
-- Next: define/locate the application-tracker markdown file, then ingest it.
-- Blockers: tracker file not set up yet; Garmin history thin (1 activity, sleep on 2 of 33 nights)
-  until the bulk export arrives.
+- Done: M0 (Garmin raw, profiled in `docs/garmin-notes.md`); Todoist extractor; tracker extractor
+  (`ingestion/tracker.py`, 45 applications, values kept as raw strings).
+- Current: M1 — DuckDB raw tables.
+- Next: `load_raw.py` → `data/warehouse.duckdb`, one raw table per entity + `dt`, `_source_file`, `_loaded_at`.
+- Blockers: Garmin history thin (1 activity, sleep on 2 of 33 nights) until the bulk export arrives.
 
 ## End of session (always)
 Before we finish a session: update the "## Status" section (dated, max 6 lines:
